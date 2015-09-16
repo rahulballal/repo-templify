@@ -21,3 +21,9 @@ New-Item $targetFolder/build_automation/drop-your-build-scripts-here.txt -type f
 
 mkdir $targetFolder/tools
 New-Item $targetFolder/tools/drop-tools-like-xunitrunner-here.txt -type file
+
+mkdir $targetFolder/logs
+New-Item $targetFolder/logs/logfiles-go-here.txt -type file
+
+mkdir $targetFolder/artifact
+New-Item $targetFolder/artifact/generated-NuGet-Packages-Go-here.txt -type file
