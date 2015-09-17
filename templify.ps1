@@ -12,24 +12,24 @@ if (Test-Path $targetFolder) {
 
 
     # Script
-    if (Test-Path $targetFolder/$vsGitIgnore -eq $false) {
+    if ( !(Test-Path -path $targetFolder/$vsGitIgnore)) {
         Copy-Item $vsGitIgnore -Destination $targetFolder        
     }
 
-    if (Test-Path $targetFolder/$reponame-ci.sln -eq $false) {
+    if (!(Test-Path -path $targetFolder/$reponame-ci.sln)) {
         Copy-Item $slnTemplate -Destination $targetFolder
         Rename-Item -path $targetFolder/$slnTemplate -newname $reponame-ci.sln
     }
 
-    if (Test-Path $targetFolder/README.md -eq $false) {
+    if (!(Test-Path -path $targetFolder/README.md)) {
         New-Item $targetFolder/README.md -type file
     }
 
-    if (Test-Path $targetFolder/drop-solution-file-here.txt -eq $true) {
+    if (Test-Path -path $targetFolder/drop-solution-file-here.txt) {
         Remove-Item $targetFolder/drop-solution-file-here.txt
     }
     
-    if (Test-Path $targetFolder/src) {
+    if (Test-Path -path $targetFolder/src) {
         New-Item $targetFolder/src/drop-your-csproj-folders-here.txt -type file -force        
     }
     else {
@@ -37,7 +37,7 @@ if (Test-Path $targetFolder) {
         New-Item $targetFolder/src/drop-your-csproj-folders-here.txt -type file
     }
     
-    if (Test-Path $targetFolder/build_automation/) {
+    if (Test-Path -path $targetFolder/build_automation/) {
         New-Item $targetFolder/build_automation/drop-your-build-scripts-here.txt -type file -force       
     }
     else {
@@ -46,7 +46,7 @@ if (Test-Path $targetFolder) {
     }
 
     
-    if (Test-Path $targetFolder/tools ) {
+    if (Test-Path -path $targetFolder/tools ) {
         New-Item $targetFolder/tools/drop-tools-like-xunitrunner-here.txt -type file -force        
     }
     else {
@@ -54,7 +54,7 @@ if (Test-Path $targetFolder) {
         New-Item $targetFolder/tools/drop-tools-like-xunitrunner-here.txt -type file
     }
 
-    if (Test-Path $targetFolder/logs) {
+    if (Test-Path -path $targetFolder/logs) {
         New-Item $targetFolder/logs/logfiles-go-here.txt -type file -force             
     }
     else {
