@@ -5,10 +5,14 @@ Write-Host "Setting up repository structure for " $targetFolder
 # Constants
 $vsGitIgnore=".gitignore"
 $readme="README.md"
+$slnTemplate="template.sln"
+$reponame= Split-Path $targetFolder -leaf
 
 
 # Script
 Copy-Item $vsGitIgnore -Destination $targetFolder
+Copy-Item $slnTemplate -Destination $targetFolder
+Rename-Item -path $targetFolder/$slnTemplate -newname $reponame-ci.sln
 New-Item $targetFolder/README.md -type file
 New-Item $targetFolder/drop-solution-file-here.txt -type file
 
