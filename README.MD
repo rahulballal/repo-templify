@@ -7,6 +7,8 @@
 	- execute command PS> ./templify.ps1 path-to-folder-you-want-to-templify
 	- This will create a folder structure and place place holder files to guide you where to place different files.
 
+NOTE: You may get errors because of execution policy settings on powershell run command *Set-ExecutionPolicy Unrestricted* to be able to run the templify script.
+
 ## Folder Structure
 
 	- repo root
