@@ -70,6 +70,14 @@ if (Test-Path $targetFolder) {
         mkdir $targetFolder/artifact
         New-Item $targetFolder/artifact/generated-NuGet-Packages-Go-here.txt -type file -force 
     }
+
+    if (Test-Path $targetFolder/build_automation) {
+        Read-Host "This will overwrite everything, if you have made any changes, take a backup. Enter a key to proceed"
+        
+        Copy-Item ".\psake-files\*.*" $targetFolder/build_automation -force -verbose
+        New-Item $targetFolder/build_automation/ps-modules -type directory -force
+        Copy-Item ".\psake-files\ps-modules\*.*" $targetFolder/build_automation/ps-modules -force -verbose
+    }
     
 }
 

@@ -221,3 +221,9 @@ _Pvt_Extensions
 
 ### VisualStudioCode ###
 .settings
+
+# Repo Specific
+artifact/dist
+artifact/buildOutput
+logs/*.html
+logs/*.xml
