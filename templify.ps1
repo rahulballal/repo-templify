@@ -1,84 +1,56 @@
-$targetFolder=$args[0]
+param (
+    [string]
+    [ValidateScript({ Test-Path $_ })]
+    [Parameter(Mandatory=$true)]    
+    $RepositoryPath,
 
-if (Test-Path $targetFolder) {
+    [bool]
+    [ValidateSet($true,$false)]
+    $DefaultMode =$true,
 
-    Write-Host "Setting up repository structure for " $targetFolder
+    [string]
+    $SolutionName,
 
-    # Constants
-    $vsGitIgnore=".gitignore"
-    $readme="README.md"
-    $slnTemplate="template.sln"
-    $reponame= Split-Path $targetFolder -leaf
+    [string]
+    [ValidateSet("xunit","nunit")]
+    $TestFramework="xunit",
 
+    [string]
+    [ValidateSet("opencover","dotcover")]
+    $CodeCoverage="opencover", 
 
-    # Script
-    if ( !(Test-Path -path $targetFolder/$vsGitIgnore)) {
-        Copy-Item $vsGitIgnore -Destination $targetFolder        
-    }
+    [string]
+    [ValidateSet("7zip")]
+    $ZipUtil="7zip",
 
-    if (!(Test-Path -path $targetFolder/$reponame-ci.sln)) {
-        Copy-Item $slnTemplate -Destination $targetFolder
-        Rename-Item -path $targetFolder/$slnTemplate -newname $reponame-ci.sln
-    }
+    [bool]    
+    $PrintDefaults = $false
+)
 
-    if (!(Test-Path -path $targetFolder/README.md)) {
-        New-Item $targetFolder/README.md -type file
-    }
+Import-Module ".\helper.psm1" -force
 
-    if (Test-Path -path $targetFolder/drop-solution-file-here.txt) {
-        Remove-Item $targetFolder/drop-solution-file-here.txt
-    }
-    
-    if (Test-Path -path $targetFolder/src) {
-        New-Item $targetFolder/src/drop-your-csproj-folders-here.txt -type file -force        
-    }
-    else {
-        mkdir $targetFolder/src
-        New-Item $targetFolder/src/drop-your-csproj-folders-here.txt -type file
-    }
-    
-    if (Test-Path -path $targetFolder/build_automation/) {
-        New-Item $targetFolder/build_automation/drop-your-build-scripts-here.txt -type file -force       
-    }
-    else {
-        mkdir $targetFolder/build_automation
-        New-Item $targetFolder/build_automation/drop-your-build-scripts-here.txt -type file
-    }
+$defSlnName = Split-Path $RepositoryPath -leaf
+$defSlnName = "$defSlnName-ci.sln"
 
-    
-    if (Test-Path -path $targetFolder/tools ) {
-        New-Item $targetFolder/tools/drop-tools-like-xunitrunner-here.txt -type file -force        
-    }
-    else {
-        mkdir $targetFolder/tools                
-        New-Item $targetFolder/tools/drop-tools-like-xunitrunner-here.txt -type file
-    }
+$Settings= @{}
+$Settings.Add("SolutionName",$defSlnName)                
+$Settings.Add("TestFramework",$TestFramework)
+$Settings.Add("CodeCoverage",$CodeCoverage)
+$Settings.Add("ZipUtil",$ZipUtil)
+$Settings.Add("BuildScripts","$RepositoryPath\build_automation")
+$Settings.Add("ArtifactsPath","$RepositoryPath\artifact")
+$Settings.Add("DistPath","$RepositoryPath\artifact\dist")
+$Settings.Add("BuildOutputPath","$RepositoryPath\artifact\buildOutput")
+$Settings.Add("ToolsPath","$RepositoryPath\tools")
+$Settings.Add("LogsPath","$RepositoryPath\logs")
+$Settings.Add("SourcePath","$RepositoryPath\src")
 
-    if (Test-Path -path $targetFolder/logs) {
-        New-Item $targetFolder/logs/logfiles-go-here.txt -type file -force             
-    }
-    else {
-        mkdir $targetFolder/logs
-        New-Item $targetFolder/logs/logfiles-go-here.txt -type file -force 
-    }
-    
-
-    if (Test-Path $targetFolder/artifact) {
-        New-Item $targetFolder/artifact/generated-NuGet-Packages-Go-here.txt -type file -force         
-    }
-    else {
-        mkdir $targetFolder/artifact
-        New-Item $targetFolder/artifact/generated-NuGet-Packages-Go-here.txt -type file -force 
-    }
-
-    if (Test-Path $targetFolder/build_automation) {
-        Read-Host "This will overwrite everything, if you have made any changes, take a backup. Enter a key to proceed"
-        
-        Copy-Item ".\psake-files\*.*" $targetFolder/build_automation -force -verbose
-        New-Item $targetFolder/build_automation/ps-modules -type directory -force
-        Copy-Item ".\psake-files\ps-modules\*.*" $targetFolder/build_automation/ps-modules -force -verbose
-    }
-    
+if($PrintDefaults){
+    Get-Defaults -config $Settings
+    Exit 0
 }
 
+#if ($DefaultMode) {
+#    Invoke-RepositorySetup -repo $RepositoryPath -config $Settings
+#}
 
