@@ -43,7 +43,6 @@ $cwd = (pwd)
 
 if($configureMode){
 
-
     Write-Message -msg "Target Dir : $PathToRepository"
     Write-Message -msg "Working Dir : $cwd"
 
@@ -61,4 +60,6 @@ if($configureMode){
 
     Write-Message -msg "DONE :)" -type "confirm"
 
+}else{
+  Write-Message -msg "Not implemented!!"
 }
