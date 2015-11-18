@@ -1,56 +1,41 @@
-param (
-    [string]
-    [ValidateScript({ Test-Path $_ })]
-    [Parameter(Mandatory=$true)]    
-    $RepositoryPath,
+param(
+    
+    [Parameter(Mandatory=$false)]
+    [ValidateSet("configure","reconfigure")]
+    $Mode="configure",
 
-    [bool]
-    [ValidateSet($true,$false)]
-    $DefaultMode =$true,
+    [Parameter(Mandatory=$true)]
+    [ValidateScript({ Test-Path $_})]
+    $PathToRepository
 
-    [string]
-    $SolutionName,
-
-    [string]
-    [ValidateSet("xunit","nunit")]
-    $TestFramework="xunit",
-
-    [string]
-    [ValidateSet("opencover","dotcover")]
-    $CodeCoverage="opencover", 
-
-    [string]
-    [ValidateSet("7zip")]
-    $ZipUtil="7zip",
-
-    [bool]    
-    $PrintDefaults = $false
 )
 
-Import-Module ".\helper.psm1" -force
+Import-Module ".\helper.psm1" -Force
 
-$defSlnName = Split-Path $RepositoryPath -leaf
-$defSlnName = "$defSlnName-ci.sln"
+$configureMode = ($Mode -eq "configure")
+$cwd = (pwd)
 
-$Settings= @{}
-$Settings.Add("SolutionName",$defSlnName)                
-$Settings.Add("TestFramework",$TestFramework)
-$Settings.Add("CodeCoverage",$CodeCoverage)
-$Settings.Add("ZipUtil",$ZipUtil)
-$Settings.Add("BuildScripts","$RepositoryPath\build_automation")
-$Settings.Add("ArtifactsPath","$RepositoryPath\artifact")
-$Settings.Add("DistPath","$RepositoryPath\artifact\dist")
-$Settings.Add("BuildOutputPath","$RepositoryPath\artifact\buildOutput")
-$Settings.Add("ToolsPath","$RepositoryPath\tools")
-$Settings.Add("LogsPath","$RepositoryPath\logs")
-$Settings.Add("SourcePath","$RepositoryPath\src")
+if($configureMode){
+    
+    
+    Write-Message -msg "Target Dir : $PathToRepository"
+    Write-Message -msg "Working Dir : $cwd"
+    
+    Invoke-CreateSln -Root $PathToRepository -Pwd $cwd
 
-if($PrintDefaults){
-    Get-Defaults -config $Settings
-    Exit 0
+    Invoke-CreateGitIgnore -Root $PathToRepository -Pwd $cwd
+
+    Invoke-CreateFolders -Root $PathToRepository 
+
+    Invoke-AddBuildSystem -Root $PathToRepository -Pwd $cwd
+
+    Invoke-AddTooling -Root $PathToRepository -Pwd ($cwd)
+
+    Show-Tree -Path $PathToRepository -Depth 4 -ShowLeaf 
+
+    Write-Message -msg "DONE :)" -type "confirm"
+
 }
 
-#if ($DefaultMode) {
-#    Invoke-RepositorySetup -repo $RepositoryPath -config $Settings
-#}
+
 
