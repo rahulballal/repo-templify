@@ -127,8 +127,7 @@ function Invoke-AddTooling {
         $Root,
         [Parameter(Mandatory=$true)]
         $Pwd
-    )
-    Show-Tree -Path $PathToRepository -Depth 4 -ShowLeaf
+    )    
 
     Write-Message "Setting up xunit.commandline, nuget.commandline, 7z.commandline, BuildInfo.Generator.Commandline tools ..."
     Copy-Item -Path (Join-Path -Path $Pwd -ChildPath repo\tools) -Destination $Root -Container -Recurse -Force    
