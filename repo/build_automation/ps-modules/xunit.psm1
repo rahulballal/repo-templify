@@ -1,5 +1,17 @@
 function Invoke-XUnit
 {
+  <#
+    .Synopsis
+      Run xunit tests for a set of assemblies
+    .Description
+      Run xunit tests for a set of assemblies
+    .Parameter pathToXUnitExe
+      Full path to the Xunit.Console.exe
+    .Parameter testAssemblies
+      Array of full paths to the .dll files that will be used to scan for test cases
+    .Parameter pathForTestReports
+      Full path to the directory where the xunit-report.xml/html will be output
+  #>
     [CmdletBinding()]
     Param
     (
