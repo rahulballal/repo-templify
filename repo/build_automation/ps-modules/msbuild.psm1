@@ -1,5 +1,21 @@
 function Invoke-MsBuild
 {
+  <#
+    .Synopsis
+      Run MsBuild for a solution
+    .Description
+      Run MsBuild for a solution
+    .Parameter solutionPath
+      Path to the solution to be built
+    .Parameter outputDirectoryPath
+      Path to the directory where MsBuild generates all build output
+    .Parameter target
+      MsBuild target "Build","Clean","Rebuild"
+    .Parameter verbosity
+      MsBuild verbosity "quiet","minimal","normal","detailed","diagnostic"
+    .Parameter buildConfig
+      MsBuild configuration "Debug","Release"
+  #>
     [CmdletBinding()]
     Param
     (
@@ -31,6 +47,24 @@ function Invoke-MsBuild
 
 function Invoke-MsBuildWithOctopack
 {
+  <#
+    .Synopsis
+      Run MsBuild for a solution
+    .Description
+      Run MsBuild for a solution
+    .Parameter solutionPath
+      Path to the solution to be built
+    .Parameter outputDirectoryPath
+      Path to the directory where MsBuild generates all build output
+    .Parameter target
+      MsBuild target "Build","Clean","Rebuild"
+    .Parameter verbosity
+      MsBuild verbosity "quiet","minimal","normal","detailed","diagnostic"
+    .Parameter buildConfig
+      MsBuild configuration "Debug","Release"
+    .Parameter octopackProperties
+      Octopack specific properties as string
+  #>
   [CmdletBinding()]
   Param
   (
@@ -63,4 +97,4 @@ function Invoke-MsBuildWithOctopack
   }
 }
 
-#Export-ModuleMember -Function Invoke-MsBuild
+Export-ModuleMember -Function Invoke-MsBuild, Invoke-MsBuildWithOctopack

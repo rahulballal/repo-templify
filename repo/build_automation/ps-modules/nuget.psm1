@@ -1,5 +1,17 @@
 function Invoke-NugetRestore
 {
+  <#
+    .Synopsis
+      Restore nuget package using a .sln file
+    .Description
+      Restore nuget package using a .sln file
+    .Parameter nugetExePath
+      Full path to the nuget commandline tool
+    .Parameter restoreSlnPath
+      Full pat to the .sln file to be used for NuGet restore
+    .Parameter packageSources
+      An array of URL to use as package sources
+  #>
     [CmdletBinding()]
     Param
     (
@@ -26,6 +38,18 @@ function Invoke-NugetRestore
 
 function Invoke-NugetPackDll
 {
+  <#
+    .Synopsis
+      Create nuget package using a .csproj or .nuspec file
+    .Description
+      Create nuget package using a .csproj file
+    .Parameter nugetExePath
+      Full path to the nuget commandline tool
+    .Parameter nuspecOrCsprojPaths
+      Full pat to the .nuspec or .csproj file to be used for NuGet pack
+    .Parameter outputDirectory
+      Full path where the created nuget package should be generated
+  #>
     [CmdletBinding()]
     Param
     (
@@ -56,6 +80,18 @@ function Invoke-NugetPackDll
 
 function Invoke-NugetPackTool
 {
+  <#
+    .Synopsis
+      Create nuget package using a .csproj or .nuspec file
+    .Description
+      Create nuget package using a .csproj file
+    .Parameter nugetExePath
+      Full path to the nuget commandline tool
+    .Parameter nuspecOrCsprojPaths
+      Full pat to the .nuspec or .csproj file to be used for NuGet pack
+    .Parameter outputDirectory
+      Full path where the created nuget package should be generated
+  #>
     [CmdletBinding()]
     Param
     (
