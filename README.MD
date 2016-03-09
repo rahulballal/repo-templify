@@ -2,6 +2,7 @@
 
 ## Usage
 
+	- Install latest powershell and Powershell Community Extentions (https://pscx.codeplex.com/)
 	- Open Powershell 
 	- cd into the folder where you cloned repo-templify
 	- Execute command **PS> .\templify.ps1 -Mode configure -PathToRepository c:\repo-to-setup **
